@@ -12,29 +12,34 @@ class Currency():
             return True
         else:
             return False
+
     def __eq__(self, code, amount):
         if self.code == code and self.amount == amount:
             return True
         else:
             return False
+
     def __add__(self, code, amount):
         if is_code(self, code):
             added = self.amount + amount
             return added
         else:
             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+
     def subtract(self, code, amount):
         if is_code(self, code):
             subtracted = self.amount - amount
             return subtracted
         else:
             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+
     def __mul__(self, code, amount, number):
         if is_code(self, code):
             multiplied = self.amount * float(number)
             return multiplied
         else:
             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+
     def which_code(self, code):
         code_dict = {'$':'USD', '€':'EUR', '¥':'JPY'}
         if '$' in code_dict.keys():
@@ -47,21 +52,28 @@ class Currency():
             None
 
 class CurrencyConverter():
-    currency_dict = {'USD':1.0, 'EUR':1.14, 'JPY': 0.009}
 
-    def __init__(self, code1, code2, amount):
-        self.code1 = code1
-        self.code2 = code2
-        self.amount = amount
+    def __init__(self, currency_dict):
+#         self.code1 = code1
+#         self.code2 = code2
+#         self.amount = amount
+        self.currency_dict = currency_dict
 
-    def convert(self):
-        converted_amount = self.amount * (self.currency_dict.get(self.code1) / self.currency_dict.get(self.code2))
-        #multiplies resulting variables of the two keys
-        return converted_amount
+    # def convert(self):
+    #     converted_amount = self.amount * (self.currency_dict.get(self.code2) / self.currency_dict.get(self.code1))
+    #     #multiplies resulting variables of the two keys
+    #     return converted_amount
         #returns amount and currency code.
 
+    def convert2(self, current_currency, changed_currency):
+        currency = current_currency.amount * (self.currency_dict.get(changed_currency) / self.currency_dict.get(current_currency.code))
+        return Currency(changed_currency,currency)
+    def get_rate(self, currency_code_source, currency_code_target):
+        ex_rate = self.convert2(Currency(currency_code_source, 1), currency_code_target)
+        return   ex_rate.amount
 
 def main():
+    currency_dict = {'USD':1.0, 'EUR':1.14, 'JPY': 0.009}
     #takes input in amount (needs to differentiate type from string IE $, € [option + shift + 2])
     while True:
         user_amount = input("Please enter an amount to convert: ")
@@ -100,9 +112,10 @@ def main():
             print("Please enter dollars, euros, or yen only!")
             continue
     print(code2)
-    currency_converter = CurrencyConverter(code1, code2, user_amount)
-    converted_amount = currency_converter.convert()
+    currency_converter = CurrencyConverter(currency_dict)
+    converted_currency = currency_converter.convert2(currency_class_variable, code2)
+    converted_amount = converted_currency.amount
     print("The converted amount is: {} {}".format((float("{0:.2f}".format(converted_amount))), code2))
-
+    print('Current exchange rate: {}'.format(currency_converter.get_rate(currency_class_variable.code, code2)))
 if __name__ == '__main__':
     main()
