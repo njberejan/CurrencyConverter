@@ -22,74 +22,74 @@
 #Must be able to convert Currency in any currency code it knows about to Currency in any other currency code it knows about.
 #Must raise an UnknownCurrencyCodeError when you try to convert from or to a currency code it doesn't know about.
 
-class Currency():
-    #need function to add, function to subtract, function to compare equivalent values, function to multiply, function to assign symbol to code ($ to USD)
-    #NEED TO INCLUDE __str__function to change get string of input
-    def __init__(self, code, amount):
-        self.code = code
-        self.amount = amount
-
-    def __str__(self):
-        return str(self.amount) + ' ' + self.code
-
-    def is_code(self, code):
-        if self.code == code:
-            return True
-        else:
-            return False
-    def __eq__(self, code, amount):
-        if self.code == code and self.amount == amount:
-            return True
-        else:
-            return False
-    def __add__(self, code, amount):
-        if is_code(self, code):
-            added = self.amount + amount
-            return added
-        else:
-            raise DifferentCurrencyCodeError ("Currency Codes don't match")
-    def subtract(self, code, amount):
-        if is_code(self, code):
-            subtracted = self.amount - amount
-            return subtracted
-        else:
-            raise DifferentCurrencyCodeError ("Currency Codes don't match")
-    def multiply(self, code, amount, number):
-        if is_code(self, code):
-            multiplied = self.amount * float(number)
-            return multiplied
-        else:
-            raise DifferentCurrencyCodeError ("Currency Codes don't match")
-
-class CurrencyConverter():
-    currency_dict = {'USD':1.0, 'EUR':0.88}
-
-    def __init__(self, code1, code2, amount):
-        self.code1 = code1
-        self.code2 = code2
-        self.amount = amount
-
-    def convert(self):
-    #     print(self.currency_dict)
-    # # #takes input in amount (needs to differentiate type from string IE $, € [option + shift + 2])
-    #     print(self.currency_dict.get(code1))
-        #for instance of code1 and code2 in dict:
-        converted_amount = self.amount * (self.currency_dict.get(self.code1) / self.currency_dict.get(self.code2))
-        #multiplies resulting variables of the two keys
-        return converted_amount
-        #returns amount and currency code.
-
-# if Currency.code != code:
-
-
-USD = Currency('USD', 1.00)
-EUR = Currency('EUR', 0.88)
-
-print(USD.code, USD.amount)
-print(EUR.code, EUR.amount)
-
+# class Currency():
+#
+#     def __init__(self, code, amount):
+#         self.code = code
+#         self.amount = amount
+#
+#     def __str__(self):
+#         return str(self.amount) + ' ' + self.code
+#
+#     def is_code(self, code):
+#         if self.code == code:
+#             return True
+#         else:
+#             return False
+#     def __eq__(self, code, amount):
+#         if self.code == code and self.amount == amount:
+#             return True
+#         else:
+#             return False
+#     def __add__(self, code, amount):
+#         if is_code(self, code):
+#             added = self.amount + amount
+#             return added
+#         else:
+#             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+#     def subtract(self, code, amount):
+#         if is_code(self, code):
+#             subtracted = self.amount - amount
+#             return subtracted
+#         else:
+#             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+#     def multiply(self, code, amount, number):
+#         if is_code(self, code):
+#             multiplied = self.amount * float(number)
+#             return multiplied
+#         else:
+#             raise DifferentCurrencyCodeError ("Currency Codes don't match")
+#     def which_code(self, code):
+#         code_dict = {'$':'USD', '€':'EUR', '¥':'JPY'}
+#         if '$' in code_dict.keys():
+#             code = 'USD'
+#         elif '€' in code_dict.keys():
+#             code = 'EUR'
+#         elif '¥' in code_dict.keys():
+#             code = 'JPY'
+#         else:
+#             None
+#
+# class CurrencyConverter():
+#     currency_dict = {'USD':1.0, 'EUR':1.14, 'JPY': 0.009}
+#
+#     def __init__(self, code1, code2, amount):
+#         self.code1 = code1
+#         self.code2 = code2
+#         self.amount = amount
+#
+#     def convert(self):
+#         converted_amount = self.amount * (self.currency_dict.get(self.code1) / self.currency_dict.get(self.code2))
+#         #multiplies resulting variables of the two keys
+#         return converted_amount
+#         #returns amount and currency code.
+from CurrencyClass import Currency
+from ConverterClass import CurrencyConverter
 def main():
     #takes input in amount (needs to differentiate type from string IE $, € [option + shift + 2])
+    # USD = Currency('USD', 1.00)
+    # EUR = Currency('EUR', 0.88)
+    number = 2
     while True:
         user_amount = input("Please enter an amount to convert: ")
         if '$' in user_amount:
@@ -100,8 +100,12 @@ def main():
             code1 = 'EUR'
             user_amount = user_amount.replace('€', '')
             break
+        elif '¥' in user_amount:
+            code1 = 'JPY'
+            user_amount = user_amount.replace('¥', '')
+            break
         else:
-            print("Please enter dollars or euros only!")
+            print("Please enter dollars, euros, or yen only!")
             continue
     print(code1)
     print(user_amount)
@@ -110,7 +114,7 @@ def main():
     print(str(currency_class_variable))
     #assigns variables to two halves of entered string
     while True:
-        code2 = input("Please enter a currency to convert to ($, €): ")
+        code2 = input("Please enter a currency to convert to ($, €, ¥): ")
         #takes second input for conversion to another currency
         if code2 == '$':
             code2 = 'USD'
@@ -118,15 +122,23 @@ def main():
         elif code2 == '€':
             code2 = 'EUR'
             break
+        elif code2 == '¥':
+            code2 = 'JPY'
+            break
         else:
-            print("Please enter dollars or euros only!")
+            print("Please enter dollars, euros, or yen only!")
             continue
     print(code2)
     currency_converter = CurrencyConverter(code1, code2, user_amount)
     converted_amount = currency_converter.convert()
-    print(converted_amount)
+    print(float("{0:.2f}".format(converted_amount)))
+    # print(USD + EUR)
+    # print(USD + USD)
+    # print(USD - USD)
+    # print(USD * number)
 
-main()
+if __name__ == '__main__':
+    main()
 
 
 

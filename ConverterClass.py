@@ -10,8 +10,18 @@
     #which implies that a dollar is worth 0.74 euros and that a dollar is worth 120 yen, but also that a euro is worth 120/0.74 = 162.2 yen.
 #Must be able to convert Currency in any currency code it knows about to Currency in any other currency code it knows about.
 #Must raise an UnknownCurrencyCodeError when you try to convert from or to a currency code it doesn't know about.
-import CurrencyClass
-class CurrencyConverter():
-currency_codes = {'USD':1.0, 'EUR':0.88}
+from CurrencyClass import Currency
 
-if Currency.code != code:
+class CurrencyConverter():
+    currency_dict = {'USD':1.0, 'EUR':1.14, 'JPY': 0.009}
+
+    def __init__(self, code1, code2, amount):
+        self.code1 = code1
+        self.code2 = code2
+        self.amount = amount
+
+    def convert(self):
+        converted_amount = self.amount * (self.currency_dict.get(self.code1) / self.currency_dict.get(self.code2))
+        #multiplies resulting variables of the two keys
+        return converted_amount
+        #returns amount and currency code.
