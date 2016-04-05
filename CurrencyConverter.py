@@ -132,17 +132,6 @@ def main():
     currency_converter = CurrencyConverter(code1, code2, user_amount)
     converted_amount = currency_converter.convert()
     print(float("{0:.2f}".format(converted_amount)))
-    # print(USD + EUR)
-    # print(USD + USD)
-    # print(USD - USD)
-    # print(USD * number)
 
 if __name__ == '__main__':
     main()
-
-
-
-#string including monetary sign, will need to seperate sign from float (sign corresponds to code, float to amount)
-#enter prompt for currency convert ("How much would you like to exchange?")
-#enter prompt for what you'd like to conver it to ("To which currency?")
-#produce output of conversion rate ("You would receive ____ dollars to ____ yen" or whatever)

@@ -10,7 +10,6 @@
     #It can also take two arguments, one being the amount and the other being the currency code.
 
 from CurrencyConverter import ConverterClass
-
 class Currency():
 
     def __init__(self, code, amount):
